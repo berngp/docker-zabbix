@@ -33,17 +33,11 @@ if [ ! -f /mysql-configured ]; then
 
 	 mysql -uroot -p"$MYSQL_PASSWORD" -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON zabbix.* TO 'zabbix'@'%';"
 
-	 /sbin/service/mysql stop
+	 /sbin/service mysqld stop
 
 	 touch /mysql-configured
 fi
 
-service sshd start
-service mysqld restart
-service httpd start
-service zabbix-server start
+passwd -d root
 
-# Jump into the BASH Shell
-#/bin/bash 
-# Jump to tail the Zabbix Server Log.
-/usr/bin/tail -f /var/log/zabbix/zabbix_server.log
+/usr/bin/simplevisor --conf /etc/simplevisor.conf start

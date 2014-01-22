@@ -5,21 +5,27 @@ Docker Zabbix
 
 The container provides:
 
-* A *Zabbix Server* and *Zabbix Web UI* server, please refer to [Zabbix](http://www.zabbix.com/) for additional info.
-* A MySQL to support *Zabbix*
+A *Zabbix Servervices* please refer to the [Zabbix documentation](http://www.zabbix.com/) for additional info.
+
+* A *Zabbix Server* at port 10051.
+* A *Zabbix Web UI* at port 80 (e.g. `http://$container_ip/zabbix` )
+* A *Zabbix Java Gateway* port 10052. 
+* A *Zabbix Agent*.
+* An SSHD server, user should be `root` and has no password.
+* A MySQL supporting *Zabbix*, user is `zabbix` and password is `zabbix`.
 
 ## Usage
 
 As an example you can run Zabbix as a service executing the following command.
 
 ```
-docker run -d -p 10051:10051 -p 80:80 berngp/docker-zabbix
+docker run -d -p 10051:10051 -p 10052:10052 -p 80:80 -p 22 berngp/docker-zabbix
 ```
 
 Such command will expose the *Zabbix Server* through port *10051* and the *Web UI* through port *80* on the host instance. 
-Be patient, it takes a minute or two to configure the MySQL instance and start the proper services.
+Be patient, it takes a minute or two to configure the MySQL instance and start the proper services. You can tail the logs using `docker logs -f $contaienr_id`.
 
-After the container is ready you can get to the *Zabbix Web UI* through `http://<container ip>/zabbix`. User is `admin` and password is `zabbix`.
+After the container is ready you can get to the *Zabbix Web UI* through `http://$container_ip/zabbix`. User is `admin` and password is `zabbix`.
 
 # Developers
 
@@ -43,7 +49,7 @@ cd /docker/docker-zabbix
 # Build the contaienr code.
 docker build -t berngp/docker-zabbix .
 # Run it!
-docker run -i -t 10051:10051 -p 80:80 berngp/docker-zabbix
+docker run -i -t 10051:10051 -p 10052:10052 -p 80:80 berngp/docker-zabbix
 ```
 
 ## Exploring the Docker Zabbix Container
@@ -51,7 +57,7 @@ docker run -i -t 10051:10051 -p 80:80 berngp/docker-zabbix
 Somtimes you might just want to review how things are deployed iniside the container. You can do that by boostrapping the container and jumping into a _bash shell_. Execute the command bellow to do it.
 
 ```
-docker run -i -t -p 10051 -p 80 --entrypoint="" berngp/docker-zabbix /bin/bash
+docker run -i -t -p 10051 -p 10052 -p 80 --entrypoint="" berngp/docker-zabbix /bin/bash
 ```
 
 Note that in the example above we are telling _docker_ to bind to ports 10051 and 80 but we are not giving explicit ports to bind to. You will have to run `docker ps` to figure out the port mappings in relationship with the host.
