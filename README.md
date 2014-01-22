@@ -13,7 +13,7 @@ The container provides:
 As an example you can run Zabbix as a service executing the following command.
 
 ```
-docker run -d -p 10051:10051 -p 80:80 berngp/zabbix
+docker run -d -p 10051:10051 -p 80:80 berngp/docker-zabbix
 ```
 
 Such command will expose the *Zabbix Server* through port *10051* and the *Web UI* through port *80* on the host instance. 
@@ -41,9 +41,9 @@ e.g.
 # CD into the docker container code.
 cd /docker/docker-zabbix
 # Build the contaienr code.
-docker build -t berngp/zabbix .
+docker build -t berngp/docker-zabbix .
 # Run it!
-docker run -i -t 10051:10051 -p 80:80 berngp/zabbix
+docker run -i -t 10051:10051 -p 80:80 berngp/docker-zabbix
 ```
 
 ## Exploring the Docker Zabbix Container
