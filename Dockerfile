@@ -15,20 +15,11 @@ RUN yum -y -q install mysql mysql-server
 # Install Apache and PHP5
 RUN yum -y -q install httpd php php-mysql php-snmp
 # Additional Tools
-RUN yum -y -q install pwgen python-setuptools vim
-# Install RRDTools 
-RUN yum -y -q install rrdtool rrdtool-devel rrdtool-perl rrdtool-php 
-# Install CollectD
-RUN yum -y -q install collectd
+RUN yum -y -q install pwgen vim
 # Install zabbix server and php frontend
 RUN yum -y -q install zabbix-server-mysql zabbix-frontend-php zabbix-web-mysql
 # Cleaining up.
 RUN yum clean all
-
-# CollectD
-RUN mv /etc/collectd.conf /etc/collectd.conf.bkp
-ADD ./collectd/collectd.conf /etc/collectd.conf
-
 # MySQL
 ADD ./mysql/my.cnf /etc/mysql/conf.d/my.cnf
 
@@ -49,8 +40,6 @@ ADD ./zabbix/zabbix.conf.php    /etc/zabbix/web/zabbix.conf.php
 ADD ./scripts/start.sh /start.sh
 
 # Post-Run commands
-RUN mkdir -p  /var/lib/collectd/rrd
-#RUN chown -R collectd /var/lib/collectd
 RUN chmod 755 /start.sh
 # zabbix, apache with zabbix ui, collectd, mysql
 EXPOSE 10051 80 25826/udp 3306

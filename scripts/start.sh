@@ -39,7 +39,6 @@ if [ ! -f /mysql-configured ]; then
 fi
 
 service sshd start
-service collectd start
 service mysqld restart
 service httpd start
 service zabbix-server start
