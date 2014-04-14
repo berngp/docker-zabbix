@@ -49,7 +49,7 @@ cd /docker/docker-zabbix
 # Build the contaienr code.
 docker build -t berngp/docker-zabbix .
 # Run it!
-docker run -i -t 10051:10051 -p 10052:10052 -p 80:80 berngp/docker-zabbix
+docker run -i -t -p 10051:10051 -p 10052:10052 -p 80:80 berngp/docker-zabbix
 ```
 
 ## Exploring the Docker Zabbix Container
