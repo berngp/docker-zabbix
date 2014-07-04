@@ -13,13 +13,14 @@ A *Zabbix Servervices* please refer to the [Zabbix documentation](http://www.zab
 * A *Zabbix Agent*.
 * An SSHD server, user should be `root` and has no password.
 * A MySQL supporting *Zabbix*, user is `zabbix` and password is `zabbix`.
+* A monit deamon managing the processes. (http://$container_ip:2812, user 'myuser' and password 'mypassword')
 
 ## Usage
 
 As an example you can run Zabbix as a service executing the following command.
 
 ```
-docker run -d -p 10051:10051 -p 10052:10052 -p 80:80 -p 22 berngp/docker-zabbix
+docker run -d -p 10051:10051 -p 10052:10052 -p 80:80 -p 2812:2812 -p 22 berngp/docker-zabbix
 ```
 
 Such command will expose the *Zabbix Server* through port *10051* and the *Web UI* through port *80* on the host instance. 
@@ -49,7 +50,7 @@ cd /docker/docker-zabbix
 # Build the contaienr code.
 docker build -t berngp/docker-zabbix .
 # Run it!
-docker run -i -t -p 10051:10051 -p 10052:10052 -p 80:80 berngp/docker-zabbix
+docker run -i -t -p 10051:10051 -p 10052:10052 -p 80:80 -p2812:2812 berngp/docker-zabbix
 ```
 
 ## Exploring the Docker Zabbix Container
@@ -57,7 +58,7 @@ docker run -i -t -p 10051:10051 -p 10052:10052 -p 80:80 berngp/docker-zabbix
 Somtimes you might just want to review how things are deployed iniside the container. You can do that by boostrapping the container and jumping into a _bash shell_. Execute the command bellow to do it.
 
 ```
-docker run -i -t -p 10051 -p 10052 -p 80 --entrypoint="" berngp/docker-zabbix /bin/bash
+docker run -i -t -p 10051 -p 10052 -p 80 -p 2812 --entrypoint="" berngp/docker-zabbix /bin/bash
 ```
 
 Note that in the example above we are telling _docker_ to bind to ports 10051 and 80 but we are not giving explicit ports to bind to. You will have to run `docker ps` to figure out the port mappings in relationship with the host.
