@@ -23,11 +23,11 @@ if [ ! -f /mysql-configured ]; then
 
 	 mysql -uroot -p"$MYSQL_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS zabbix CHARACTER SET utf8;"
 
-	 zabbix_mysql_v="$(ls -d /usr/share/doc/zabbix-server-mysql-*)"
+	 zabbix_mysql_v="/usr/share/zabbix-mysql"
 
-	 mysql -uroot -D zabbix -p"$MYSQL_PASSWORD" < "${zabbix_mysql_v}/create/schema.sql"
-	 mysql -uroot -D zabbix -p"$MYSQL_PASSWORD" < "${zabbix_mysql_v}/create/images.sql"
-	 mysql -uroot -D zabbix -p"$MYSQL_PASSWORD" < "${zabbix_mysql_v}/create/data.sql"
+	 mysql -uroot -D zabbix -p"$MYSQL_PASSWORD" < "${zabbix_mysql_v}/schema.sql"
+	 mysql -uroot -D zabbix -p"$MYSQL_PASSWORD" < "${zabbix_mysql_v}/images.sql"
+	 mysql -uroot -D zabbix -p"$MYSQL_PASSWORD" < "${zabbix_mysql_v}/data.sql"
 
 	 mysql -uroot -p"$MYSQL_PASSWORD" -e "INSERT INTO mysql.user (Host,User,Password) VALUES('localhost','zabbix',PASSWORD('zabbix'));"
 
@@ -40,4 +40,4 @@ fi
 
 passwd -d root
 
-/usr/bin/simplevisor --conf /etc/simplevisor.conf start
+/usr/bin/monit -d 10 -Ic /etc/monitrc

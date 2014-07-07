@@ -1,0 +1,31 @@
+set init
+
+set httpd
+	port 2812
+	allow myuser:mypassword
+
+check process mysqld with pidfile /var/run/mysqld/mysqld.pid
+	start program = "/sbin/service mysqld start" 
+	stop program = "/sbin/service mysqld stop"
+
+check process zabbix-server with pidfile /var/run/zabbix/zabbix_server.pid
+	start program = "/sbin/service zabbix-server start" 
+	stop program = "/sbin/service zabbix-server stop"
+        depends on mysqld
+
+check process zabbix-agent with pidfile /var/run/zabbix/zabbix_agentd.pid
+	start program = "/sbin/service zabbix-agent start" 
+	stop program = "/sbin/service zabbix-agent stop"
+
+check process zabbix-java-gateway with pidfile /var/run/zabbix/zabbix_java.pid
+	start program = "/sbin/service zabbix-java-gateway start" 
+	stop program = "/sbin/service zabbix-java-gateway stop"
+
+check process httpd with pidfile /var/run/httpd/httpd.pid
+	start program = "/sbin/service httpd start" 
+	stop program = "/sbin/service httpd stop"
+	depends on zabbix-server
+
+check process sshd with pidfile /var/run/sshd.pid
+	start program = "/sbin/service sshd start" 
+	stop program = "/sbin/service sshd stop"
