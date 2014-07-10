@@ -1,3 +1,5 @@
+# Version 1.0
+
 FROM centos
 MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
 
