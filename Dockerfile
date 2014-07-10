@@ -1,4 +1,4 @@
-FROM centos
+FROM centos:centos6
 MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
 
 # Update base images.
