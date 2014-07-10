@@ -9,19 +9,19 @@ FORWARD_DOCKER_PORTS = ENV['FORWARD_DOCKER_PORTS']
 Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
-    
+
     config.vm.box = BOX_NAME
     config.vm.box_url = BOX_URI
     config.vm.boot_timeout = 120
     config.ssh.forward_agent = true
-    config.vm.network :private_network, ip: "33.33.33.80"
+    config.vm.network "private_network", type: "dhcp"
     config.vm.synced_folder ".", "/docker/docker-zabbix"
 
     # Provision docker and new kernel if deployment was not done.
     # It is assumed Vagrant can successfully launch the provider instance.
 
      if Dir.glob("#{File.dirname(__FILE__)}/.vagrant/machines/default/*/id").empty?
-        
+
          script = <<-eos
             # Install EPEL repo.
             wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
             # Add docker-io packages.
             yum -y install docker-io
             yum -y update docker-io
-            # Add 
+            # Add
             service docker start
             chkconfig docker on
 
