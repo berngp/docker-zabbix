@@ -30,6 +30,10 @@ Be patient, it takes a minute or two to configure the MySQL instance and start t
 
 After the container is ready the *Zabbix Web UI* should be available at `http://$container_ip/zabbix`. User is `admin` and password is `zabbix`.
 
+## Issues and Bugs.
+
+Feel free to report any problems [here](https://github.com/berngp/docker-zabbix/issues).
+
 # Developers
 
 ## Setting your Docker environment with the Vagrantfile
@@ -76,4 +80,9 @@ docker run -i -t -p 10051 \
 Note that in the example above we are telling _docker_ to bind ports 10051, 10052, 80 and 2812 but we are not giving explicit mapping of those ports. You will have to run `docker ps` to figure out the port mappings in relationship with the host.
 
 
-Happy metrics gathering!
+## Contributing.
+
+Appreciate any contribution regardless of the size. If your contribution is associated with any reported [issue](https://github.com/berngp/docker-zabbix/issues) please add the details in the comments of the PR (Pull Request).
+
+
+Thank you and happy metrics gathering!
