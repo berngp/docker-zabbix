@@ -14,8 +14,8 @@ RUN yum makecache
 RUN yum -y -q install net-snmp-devel net-snmp-libs net-snmp net-snmp-perl net-snmp-python net-snmp-utils
 # Install Lamp Stack, including PHP5 SNMP
 RUN yum -y -q install mysql mysql-server
-# Install Apache and PHP5
-RUN yum -y -q install httpd php php-mysql php-snmp
+# Install Apache and PHP5 with ldap support
+RUN yum -y -q install httpd php php-mysql php-snmp php-ldap
 # Additional Tools
 RUN yum -y -q install passwd perl-JSON pwgen vim
 # Install packages.
