@@ -1,16 +1,18 @@
 FROM centos:centos6
 MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
+ENV REFRESHED_AT 2014-11-25
 
+RUN yum -q makecache
 # Update base images.
 RUN yum distribution-synchronization -y
-
-# Install EPEL, MySQL, Zabbix release packages.
+# Install EPEL to have MySQL packages.
 RUN yum install -y http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-RUN yum install -y http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm
-
+# Install Zabbix release packages.
+RUN yum install -y http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-release-2.4-1.el6.noarch.rpm
+# Refresh
 RUN yum makecache
 # Installing SNMP Utils
-#RUN yum -y install libsnmp-dev libsnmp-base libsnmp-dev libsnmp-perl libnet-snmp-perl librrds-perl
+# RUN yum -y install libsnmp-dev libsnmp-base libsnmp-dev libsnmp-perl libnet-snmp-perl librrds-perl
 RUN yum -y -q install net-snmp-devel net-snmp-libs net-snmp net-snmp-perl net-snmp-python net-snmp-utils
 # Install Lamp Stack, including PHP5 SNMP
 RUN yum -y -q install mysql mysql-server
@@ -26,21 +28,23 @@ RUN yum -y -q install zabbix-agent zabbix-get zabbix-java-gateway zabbix-sender 
 RUN yum -y -q install zabbix22-dbfiles-mysql
 # install monit
 RUN yum -y -q install monit
+# installing sudo since some Zabbix actions require it.
+RUN yum -y -q install sudo
 # Cleaining up.
 RUN yum clean all
 # MySQL
 ADD ./mysql/my.cnf /etc/mysql/conf.d/my.cnf
 # Zabbix Conf Files
-ADD ./zabbix/zabbix.ini 				/etc/php.d/zabbix.ini
-ADD ./zabbix/httpd_zabbix.conf  		/etc/httpd/conf.d/zabbix.conf
-ADD ./zabbix/zabbix.conf.php    		/etc/zabbix/web/zabbix.conf.php
-ADD ./zabbix/zabbix_agentd.conf 		/etc/zabbix/zabbix_agentd.conf
+ADD ./zabbix/zabbix.ini 				        /etc/php.d/zabbix.ini
+ADD ./zabbix/httpd_zabbix.conf  		    /etc/httpd/conf.d/zabbix.conf
+ADD ./zabbix/zabbix.conf.php    		    /etc/zabbix/web/zabbix.conf.php
+ADD ./zabbix/zabbix_agentd.conf 		    /etc/zabbix/zabbix_agentd.conf
 ADD ./zabbix/zabbix_java_gateway.conf 	/etc/zabbix/zabbix_java_gateway.conf
-ADD ./zabbix/zabbix_server.conf 		/etc/zabbix/zabbix_server.conf
+ADD ./zabbix/zabbix_server.conf 		    /etc/zabbix/zabbix_server.conf
 
 RUN chmod 640 /etc/zabbix/zabbix_server.conf
-RUN chown root:zabbix /etc/zabbix/zabbix_server.conf
 
+RUN chown root:zabbix /etc/zabbix/zabbix_server.conf
 # Monit
 ADD ./monitrc /etc/monitrc
 RUN chmod 600 /etc/monitrc
@@ -59,4 +63,5 @@ RUN chmod 755 /start.sh
 EXPOSE 10051 10052 80 2812
 
 VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d"]
+# TODO: Define entrypoint.
 CMD ["/bin/bash", "/start.sh"]
