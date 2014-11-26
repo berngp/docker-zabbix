@@ -11,6 +11,8 @@ RUN yum install -y http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-
 RUN yum install -y http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-release-2.4-1.el6.noarch.rpm
 # Refresh
 RUN yum makecache
+# Installing Network Tools.
+RUN yum -y -q install traceroute
 # Installing SNMP Utils
 # RUN yum -y install libsnmp-dev libsnmp-base libsnmp-dev libsnmp-perl libnet-snmp-perl librrds-perl
 RUN yum -y -q install net-snmp-devel net-snmp-libs net-snmp net-snmp-perl net-snmp-python net-snmp-utils
