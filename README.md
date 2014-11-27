@@ -97,5 +97,9 @@ docker run -i -t -P --name=zabbix berngp/docker-zabbix
 
 Appreciate any contribution regardless of the size. If your contribution is associated with any reported [issue](https://github.com/berngp/docker-zabbix/issues) please add the details in the comments of the PR (Pull Request).
 
+### Contributions from:
+
+* [CosmicQ](https://github.com/CosmicQ)
+
 
 Thank you and happy metrics gathering!

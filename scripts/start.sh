@@ -1,6 +1,8 @@
 #!/bin/bash
 
-if [ ! -f /mysql-configured ]; then
+_file_marker="/var/lib/mysql/.mysql-configured"
+
+if [ ! -f "$_file_marker" ]; then
  	/sbin/service mysqld restart
 
  	/usr/bin/mysql_upgrade
@@ -35,13 +37,11 @@ if [ ! -f /mysql-configured ]; then
 
 	 /sbin/service mysqld restart
 
-	 #mysql -uroot -p"$MYSQL_PASSWORD" -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON zabbix.* TO 'zabbix'@'%';"
-
    mysql -uroot -p"$MYSQL_PASSWORD" -e "GRANT ALL ON zabbix.* TO 'zabbix'@'localhost';"
 
 	 /sbin/service mysqld stop
 
-	 touch /mysql-configured
+	 touch "$_file_marker"
 fi
 
 passwd -d root
