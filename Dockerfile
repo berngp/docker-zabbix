@@ -9,10 +9,6 @@ RUN yum distribution-synchronization -y
 # Install EPEL, MySQL, Zabbix release packages.
 RUN yum install -y http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 RUN yum install -y http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm
-<<<<<<< HEAD
-=======
-# RUN rpm -ivh http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm
->>>>>>> [Fixes #4]: Remove SSHD from the Image.
 
 RUN yum makecache
 # Installing SNMP Utils
