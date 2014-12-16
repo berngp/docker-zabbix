@@ -1,6 +1,8 @@
+# Version 2.0
+
 FROM centos:centos6
 MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
-ENV REFRESHED_AT 2014-11-25
+ENV REFRESHED_AT 2014-12-16
 
 RUN yum -q makecache
 # Update base images.
@@ -23,7 +25,11 @@ RUN yum -y -q install httpd php php-mysql php-snmp php-ldap
 # Additional Tools
 RUN yum -y -q install passwd perl-JSON pwgen vim
 # Install packages.
-RUN yum -y -q install java-1.7.0-openjdk
+RUN yum -y -q install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+ADD ./profile.d/java.sh /etc/profile.d/java.sh
+RUN chmod 755 /etc/profile.d/java.sh
+
+#RUN /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.25-3.b17.el6_6.x86_64/jre/bin/java
 # Install zabbix server and php frontend
 RUN yum -y -q install zabbix-agent zabbix-get zabbix-java-gateway zabbix-sender zabbix-server zabbix-server-mysql zabbix-web zabbix-web-mysql
 # Install database files, please not version number in the package (!)
@@ -60,8 +66,8 @@ RUN chmod 600 /etc/monitrc
 RUN echo "NETWORKING=yes" > /etc/sysconfig/network
 
 # Add the script that will start the repo.
-ADD ./scripts/start.sh /start.sh
-RUN chmod 755 /start.sh
+ADD ./scripts/entrypoint.sh /bin/docker-zabbix
+RUN chmod 755 /bin/docker-zabbix
 
 # Expose the Ports used by
 # * Zabbix services
@@ -70,5 +76,6 @@ RUN chmod 755 /start.sh
 EXPOSE 10051 10052 80 2812
 
 VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d"]
-# TODO: Define entrypoint.
-CMD ["/bin/bash", "/start.sh"]
+
+ENTRYPOINT ["/bin/docker-zabbix"]
+CMD ["run"]
