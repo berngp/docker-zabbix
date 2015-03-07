@@ -52,6 +52,17 @@ Be patient, it takes a minute or two to configure the MySQL instance and start t
 After the container is ready the *Zabbix Web UI* should be available at `http://$container_ip/zabbix`. User is `admin` and password is `zabbix`.
 
 
+### Apparmor Specifics (Debian and Ubuntu)
+
+The container uses Monit for controlling and observing the individual processes, which requires capabilities denied by Docker's default Apparmor profile. Currently, the only workaround is to add the `trace` capability and running the container without being fenced by Apparmor, using following flags in the `RUN` command:
+
+```
+--cap-add SYS_PTRACE  --security-opt apparmor:unconfined
+```
+
+Not doing so will result in a *vast* number of log messages polluting your syslog, as Monit tries to trace the processes all 10 seconds!
+
+
 ## Exploring the Docker Zabbix Container
 
 Sometimes you might just want to review how things are deployed inside a running container, you can do this by executing a _bash shell_ through _docker's exec_ command.
