@@ -1,8 +1,8 @@
-# Version 2.1
+# Version 2.2
 
 FROM centos:centos6
 MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
-ENV REFRESHED_AT 2014-12-16
+ENV REFRESHED_AT 2015-03-08
 
 RUN yum -q makecache
 # Update base images.
