@@ -111,6 +111,9 @@ Appreciate any contribution regardless of the size. If your contribution is asso
 ### Contributions from:
 
 * [CosmicQ](https://github.com/CosmicQ)
+* [JensErat](https://github.com/JensErat)
+* [mvanholsteijn](https://github.com/mvanholsteijn)
+* [Nekroze](https://github.com/Nekroze)
 
 
 Thank you and happy metrics gathering!
