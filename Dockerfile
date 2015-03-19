@@ -1,8 +1,8 @@
-# Version 2.2
+# Version 2.3
 
 FROM centos:centos6
 MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
-ENV REFRESHED_AT 2015-03-09
+ENV REFRESHED_AT 2015-03-19
 
 # Install EPEL to have MySQL packages.
 RUN yum install -y http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm

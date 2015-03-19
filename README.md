@@ -79,15 +79,13 @@ Feel free to report any problems [here](https://github.com/berngp/docker-zabbix/
 
 # Developers
 
-I suggest you install docker through your distribution, if using Mac OSX I suggest you leverage [boot2docker](http://boot2docker.io/), as an option the project has a *Vagrantfile* that you can leverage.
+I suggest you install docker through your distribution, if using Mac OSX I suggest you leverage [boot2docker](http://boot2docker.io/), as an option the project has a *Vagrantfile* that you can use to create a virtual instance with _Docker_.
 
 ## Setting your Docker environment with the Vagrantfile
 
 To run the included _Vagrantfile_ you will need [VirtualBox](https://www.virtualbox.org/) and [Vagrant](http://www.vagrantup.com/) installed. Currently I am testing it against _VirtualBox_ 4.3.6 and _Vagrant_ 1.4.1. The _Vagrantfile_ uses a minimal _Ubuntu Precise 64_ box and installs the _VirtualBox Guest Additions_ along with _Docker_ and its dependencies. The first time you execute a `vagrant up` it will go through an installation and build process, after its done you will have to execute a `vagrant reload`. After that you should be able to do a `vagrant ssh` and find that _Docker_ is available using a `which docker` command.
 
 *Be aware* that the _Vagrantfile_ depends on the version of _VirtualBox_ and may run into problems if you don't have the latest versions.
-
-Once your _Vagrant_ instance is up you should be able to ssh in (`vagrant ssh`) and have the `docker` command available. By default _Docker_ is also started as a service/daemon.
 
 ## Building the Docker Zabbix Repository.
 
