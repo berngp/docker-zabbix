@@ -62,7 +62,7 @@ RUN yum -y -q install zabbix-agent  \
               zabbix22-dbfiles-mysql
 
 # YUM Cleanup
-yum clean all && rm -rf /tmp/*
+RUN yum clean all && rm -rf /tmp/*
 
 # MySQL
 COPY ./mysql/my.cnf /etc/mysql/conf.d/my.cnf
