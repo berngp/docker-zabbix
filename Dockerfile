@@ -2,7 +2,7 @@
 
 FROM centos:centos6
 MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
-ENV REFRESHED_AT 2015-03-19
+ENV REFRESHED_AT 2015-07-27_00.05
 
 # Install EPEL to have MySQL packages.
 RUN yum install -y http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
@@ -12,7 +12,7 @@ RUN yum install -y http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-releas
 RUN yum makecache
 # Installing Tools.
 RUN yum -y -q install \
-              monit \
+              supervisor \
               nmap  \
               traceroute \
               wget  \
@@ -62,7 +62,7 @@ RUN yum -y -q install zabbix-agent  \
               zabbix22-dbfiles-mysql
 
 # YUM Cleanup
-yum clean all && rm -rf /tmp/*
+RUN yum clean all && rm -rf /tmp/*
 
 # MySQL
 COPY ./mysql/my.cnf /etc/mysql/conf.d/my.cnf
@@ -83,12 +83,12 @@ COPY ./zabbix/zabbix_server.conf 		    /etc/zabbix/zabbix_server.conf
 RUN chmod 640 /etc/zabbix/zabbix_server.conf
 RUN chown root:zabbix /etc/zabbix/zabbix_server.conf
 
-# Monit
-ADD ./monitrc /etc/monitrc
-RUN chmod 600 /etc/monitrc
+# Supervisord
+ADD supervisord.conf  /etc/supervisord.conf
+RUN chmod 600 /etc/supervisord.conf
 
 # https://github.com/dotcloud/docker/issues/1240#issuecomment-21807183
-RUN echo "NETWORKING=yes" > /etc/sysconfig/network
+# RUN echo "NETWORKING=yes" > /etc/sysconfig/network
 
 # Add the script that will start the repo.
 ADD ./scripts/entrypoint.sh /bin/docker-zabbix
@@ -100,7 +100,7 @@ RUN chmod 755 /bin/docker-zabbix
 # * Monit
 EXPOSE 10051 10052 80 2812
 
-VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d"]
+VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d", "/var/log/supervisor"]
 
 ENTRYPOINT ["/bin/docker-zabbix"]
 CMD ["run"]
