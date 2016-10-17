@@ -1,3 +1,6 @@
+*NOTE* I am not maintining this project anymore. Please use at your own discretion.
+If there is interest to own this project please ping me.
+
 Docker Zabbix
 ========================
 
