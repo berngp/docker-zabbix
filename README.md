@@ -13,7 +13,7 @@ The container provides the following *Zabbix Services*, please refer to the [Zab
 * A *Zabbix Web UI* at port 80 (e.g. `http://$container_ip/zabbix` )
 * A *Zabbix Agent*.
 * A MySQL instance supporting *Zabbix*, user is `zabbix` and password is `zabbix`.
-* A Monit deamon managing the processes (http://$container_ip:2812, user 'myuser' and password 'mypassword').
+* Supervisord managing the processes (`http://$container_ip:2812`, user `'myuser'` and password `'mypassword'`).
 
 
 ## Usage

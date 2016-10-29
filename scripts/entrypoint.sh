@@ -2,7 +2,7 @@
 
 source /etc/profile.d/java.sh
 
-_file_marker="/var/lib/mysql/.mysql-configured"
+readonly _file_marker="/var/lib/mysql/.mysql-configured"
 
 if [ ! -f "$_file_marker" ]; then
   /sbin/service mysqld restart
@@ -46,20 +46,21 @@ if [ ! -f "$_file_marker" ]; then
 	touch "$_file_marker"
 fi
 
-_cmd="/usr/bin/monit -d 10 -Ic /etc/monitrc"
-_shell="/bin/bash"
+readonly _cmd="/usr/bin/supervisord -c /etc/supervisord.conf --nodaemon"
+readonly _cmd_ctrl="/usr/bin/supervisorctl -c /etc/supervisord.conf"
+readonly _shell="/bin/bash"
 
 case "$1" in
 	run)
-    echo "Running Monit... "
-    exec /usr/bin/monit -d 10 -Ic /etc/monitrc
+    echo "Running Supervisor ..."
+    exec $_cmd
 		;;
 	stop)
-		$_cmd stop all
+		$_cmd_ctrl stop all
     RETVAL=$?
 		;;
 	restart)
-		$_cmd restart all
+		$_cmd_ctrl restart all
     RETVAL=$?
 		;;
   shell)
@@ -67,11 +68,11 @@ case "$1" in
     RETVAL=$?
 		;;
 	status)
-		$_cmd status all
+		$_cmd_ctrl status all
     RETVAL=$?
 		;;
   summary)
-		$_cmd summary
+		$_cmd_ctrl summary
     RETVAL=$?
 		;;
 	*)
